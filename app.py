@@ -5,7 +5,6 @@ import os
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'static/uploads/'
 
-# Function to initialize PaddleOCR within the request context
 def get_ocr():
     return PaddleOCR(use_angle_cls=True, lang='en')
 
