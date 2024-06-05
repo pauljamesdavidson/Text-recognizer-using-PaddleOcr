@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>PaddleOCR Web App</title>
+    <style>
+      body {
+        background-color: #f0f2f5;
+        color: #333;
+      }
+      .container {
+        margin-top: 50px;
+      }
+      .card {
+        margin-top: 20px;
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      .card-header {
+        border-bottom: none;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+      }
+      .card-body {
+        background-color: white;
+      }
+      .form-control {
+        border-radius: 5px;
+      }
+      .preformatted-text {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        background-color: #f8f9fa;
+        padding: 10px;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="card">
+        <div class="card-header">
+          <h1 class="mt-3">Upload a Text Image for Text Recognition</h1>
+          <h6>(This Recognition uses PaddleOCR Model)<h4>
+        </div>
+        <div class="card-body">
+          <form method="POST" action="/upload" enctype="multipart/form-data">
+            <div class="form-group">
+              <label for="file">Choose image</label>
+              <input type="file" class="form-control" id="file" name="file" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Upload</button>
+          </form>
+        </div>
+      </div>
+      {% if filename %}
+      <div class="card">
+        <div class="card-header">
+          <h2 class="mt-3">Uploaded Image</h2>
+        </div>
+        <div class="card-body">
+          <img src="{{ url_for('static', filename='uploads/' ~ filename) }}" class="img-fluid mb-3">
+          <form method="POST" action="/detect">
+            <input type="hidden" name="filename" value="{{ filename }}">
+            <button type="submit" class="btn btn-secondary">Recognize</button>
+          </form>
+        </div>
+      </div>
+      {% endif %}
+      {% if text %}
+      <div class="card">
+        <div class="card-header">
+          <h2 class="mt-3">Extracted Text</h2>
+        </div>
+        <div class="card-body">
+          <pre class="preformatted-text">{{ text }}</pre>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+</html>
